@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Desa Tungel | Profil Lengkap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1c1f4c;
+      --accent: #caa760;
+      --accent-light: #e8d7b0;
+      --bg: #f9f9f9;
+      --text: #333;
+      --text-light: #666;
+      --card: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.08);
+      --success: #4CAF50;
+      --info: #2196F3;
+      --warning: #FF9800;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    header {
+      background-color: rgba(28, 31, 76, 0.98);
+      backdrop-filter: blur(6px);
+      color: white;
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled {
+      padding: 12px 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled .logo img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo h2 {
+      font-weight: 600;
+      font-size: 1.4rem;
+      background: linear-gradient(to right, #fff, var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    nav a.active {
+      background-color: var(--accent);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    nav a.active:hover {
+      background-color: var(--accent);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--primary), #303566);
+      color: white;
+      text-align: center;
+      padding: 120px 30px 90px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('pattern.svg') center/cover no-repeat;
+      opacity: 0.05;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      position: relative;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      opacity: 0.9;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 70px 30px;
+    }
+
+    .section {
+      margin-bottom: 80px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .section h2 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      padding-left: 20px;
+      margin-bottom: 0;
+      position: relative;
+    }
+
+    .section h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+
+    .section-description {
+      color: var(--text-light);
+      max-width: 800px;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: 0 6px 20px var(--shadow);
+      transition: all 0.3s ease;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+    }
+
+    .card-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1.8rem;
+      color: var(--accent);
+      opacity: 0.3;
+    }
+
+    .card-content {
+      padding: 30px;
+    }
+
+    .card h3 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .card h3::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+
+    .card p {
+      color: var(--text-light);
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+    }
+
+    .card-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 20px 0 10px;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-top: 15px;
+    }
+
+    .card-meta i {
+      margin-right: 8px;
+      color: var(--accent);
+    }
+
+    .progress-container {
+      margin-top: 20px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-size: 0.85rem;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #eee;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+      transition: width 1s ease;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .data-table th {
+      background-color: var(--primary);
+      color: white;
+      padding: 12px 15px;
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .data-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    .data-table tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-success {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: var(--success);
+    }
+
+    .badge-warning {
+      background-color: rgba(255, 152, 0, 0.1);
+      color: var(--warning);
+    }
+
+    .badge-info {
+      background-color: rgba(33, 150, 243, 0.1);
+      color: var(--info);
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 6px 20px var(--shadow);
+      margin-top: 30px;
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      padding: 60px 0 30px;
+      margin-top: 80px;
+      position: relative;
+    }
+
+    .footer-wave {
+      position: absolute;
+      top: -60px;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%231c1f4c" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%231c1f4c" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%231c1f4c"/></svg>') center top/cover no-repeat;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-column h3::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .footer-column p {
+      opacity: 0.8;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+      transform: translateX(5px);
+    }
+
+    .footer-links i {
+      color: var(--accent);
+      font-size: 0.8rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      background: var(--accent);
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .back-to-top.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-5px);
+      background: var(--primary);
+      color: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+      }
+      
+      .hero {
+        padding: 90px 20px 60px;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .container {
+        padding: 50px 20px;
+      }
+      
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <div class="logo">
+      <img src="logo.png" alt="Logo Desa Tungel">
+      <h2>Desa Tungel</h2>
+    </div>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="profil.html">Profil</a>
+      <a href="data.html" class="active">Data</a>
+      <a href="petaadministrasi.html">Peta</a>
+      <a href="galleri.html">Galeri</a>
+      <a href="anggaran.html">APBN</a>
+      <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Data Statistik Desa Tungel</h1>
+    <p>Informasi terperinci tentang kependudukan, fasilitas, dan perkembangan Desa Tungel</p>
+  </section>
+
+  <div class="container">
+    <div class="section">
+      <div class="section-header">
+        <h2>Demografi Penduduk</h2>
+        <div class="badge badge-info">Update Terakhir: Juni 2025</div>
+      </div>
+      <p class="section-description">Data kependudukan Desa Tungel berdasarkan registrasi administrasi dan survei terbaru.</p>
+      
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="card-content">
+            <h3>Total Penduduk</h3>
+            <p>Jumlah warga yang tercatat secara resmi</p>
+            <div class="card-value">565</div>
+            <div class="card-meta">
+              <i class="fas fa-calendar-alt"></i>
+              <span>Per Juni 2025</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="card-content">
+            <h3>Kepala Keluarga</h3>
+            <p>Jumlah Kartu Keluarga (KK) terdaftar</p>
+            <div class="card-value">168</div>
+            <div class="progress-container">
+              <div class="progress-label">
+                <span>Kepadatan</span>
+                <span>3.4 orang/KK</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 75%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-male"></i>
+          </div>
+          <div class="card-content">
+            <h3>Laki-laki</h3>
+            <p>Jumlah penduduk berjenis kelamin laki-laki</p>
+            <div class="card-value">261</div>
+            <div class="progress-container">
+              <div class="progress-label">
+                <span>Persentase</span>
+                <span>46.2%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 46.2%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-female"></i>
+          </div>
+          <div class="card-content">
+            <h3>Perempuan</h3>
+            <p>Jumlah penduduk berjenis kelamin perempuan</p>
+            <div class="card-value">304</div>
+            <div class="progress-container">
+              <div class="progress-label">
+                <span>Persentase</span>
+                <span>53.8%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 53.8%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>Fasilitas Umum</h2>
+        <div class="badge badge-success">Lengkap</div>
+      </div>
+      <p class="section-description">Sarana dan prasarana yang tersedia untuk mendukung aktivitas warga Desa Tungel.</p>
+      
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-mosque"></i>
+          </div>
+          <div class="card-content">
+            <h3>Tempat Ibadah</h3>
+            <p>Masjid dan meunasah untuk kegiatan keagamaan</p>
+            <div class="card-value">3</div>
+            <div class="card-meta">
+              <i class="fas fa-info-circle"></i>
+              <span>1 Masjid Utama + 2 Meunasah</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-hospital"></i>
+          </div>
+          <div class="card-content">
+            <h3>Kesehatan</h3>
+            <p>Fasilitas pelayanan kesehatan dasar</p>
+            <div class="card-value">1</div>
+            <div class="card-meta">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Posyandu Terpadu</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-school"></i>
+          </div>
+          <div class="card-content">
+            <h3>Pendidikan</h3>
+            <p>Lembaga pendidikan formal di desa</p>
+            <div class="card-value">2</div>
+            <div class="card-meta">
+              <i class="fas fa-graduation-cap"></i>
+              <span>1 PAUD/TK + 1 SD Negeri</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="card-content">
+            <h3>Infrastruktur</h3>
+            <p>Ketersediaan listrik dan air bersih</p>
+            <div class="card-value">100%</div>
+            <div class="progress-container">
+              <div class="progress-label">
+                <span>Jangkauan</span>
+                <span>Penuh</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Data Rinci Penduduk</h2>
+      <p class="section-description">Tabel detail komposisi penduduk berdasarkan kelompok usia dan jenis kelamin.</p>
+      
+      <div style="overflow-x: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Kelompok Usia</th>
+              <th>Laki-laki</th>
+              <th>Perempuan</th>
+              <th>Total</th>
+              <th>Persentase</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0-5 Tahun (Balita)</td>
+              <td>32</td>
+              <td>28</td>
+              <td>60</td>
+              <td>10.6%</td>
+            </tr>
+            <tr>
+              <td>6-12 Tahun (SD)</td>
+              <td>45</td>
+              <td>42</td>
+              <td>87</td>
+              <td>15.4%</td>
+            </tr>
+            <tr>
+              <td>13-18 Tahun (Remaja)</td>
+              <td>38</td>
+              <td>40</td>
+              <td>78</td>
+              <td>13.8%</td>
+            </tr>
+            <tr>
+              <td>19-35 Tahun (Pemuda)</td>
+              <td>62</td>
+              <td>75</td>
+              <td>137</td>
+              <td>24.2%</td>
+            </tr>
+            <tr>
+              <td>36-55 Tahun (Dewasa)</td>
+              <td>55</td>
+              <td>70</td>
+              <td>125</td>
+              <td>22.1%</td>
+            </tr>
+            <tr>
+              <td>>55 Tahun (Lansia)</td>
+              <td>29</td>
+              <td>49</td>
+              <td>78</td>
+              <td>13.8%</td>
+            </tr>
+            <tr style="font-weight: 600; background-color: #f0f0f0;">
+              <td>Total</td>
+              <td>261</td>
+              <td>304</td>
+              <td>565</td>
+              <td>100%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-wave"></div>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Tentang Desa Tungel</h3>
+        <p>Desa Tungel adalah desa yang terletak di Kecamatan Rikit Gaib, Kabupaten Gayo Lues, Provinsi Aceh.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Navigasi Cepat</h3>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+          <li><a href="profil.html"><i class="fas fa-chevron-right"></i> Profil Desa</a></li>
+          <li><a href="data.html"><i class="fas fa-chevron-right"></i> Data Statistik</a></li>
+          <li><a href="galleri.html"><i class="fas fa-chevron-right"></i> Galeri Kegiatan</a></li>
+          <li><a href="kontak.html"><i class="fas fa-chevron-right"></i> Kontak Kami</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Kontak</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Jl. Desa Tungel, Kec. Rikit Gaib, Kab. Gayo Lues, Aceh</p>
+        <p><i class="fas fa-phone"></i> +62 852 XXXX XXXX</p>
+        <p><i class="fas fa-envelope"></i> desatungel@gayolueskab.go.id</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Desa Tungel – Kecamatan Rikit Gaib, Kabupaten Gayo Lues. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('active');
+        document.getElementById('header').classList.add('scrolled');
+      } else {
+        backToTop.classList.remove('active');
+        document.getElementById('header').classList.remove('scrolled');
+      }
+    });
+    
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Animasi saat scroll
+    const sections = document.querySelectorAll('.section');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = 'fadeIn 0.8s ease forwards';
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+    
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>

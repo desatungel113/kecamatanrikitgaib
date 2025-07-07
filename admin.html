@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Desa Tungel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1c1f4c;
+      --primary-light: #2d3168;
+      --accent: #caa760;
+      --accent-light: #e8c887;
+      --bg: #f8f9fa;
+      --text: #2c2e3e;
+      --text-light: #5a5c6c;
+      --card: #ffffff;
+      --shadow: rgba(28, 31, 76, 0.1);
+      --success: #4caf50;
+      --error: #f44336;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: rgba(28, 31, 76, 0.98);
+      backdrop-filter: blur(8px);
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transition: var(--transition);
+    }
+
+    header.scrolled {
+      padding: 10px 40px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: var(--transition);
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      transition: var(--transition);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .logo-text span {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      font-weight: 300;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 4px;
+      left: 12px;
+      background-color: var(--accent);
+      transition: var(--transition);
+    }
+
+    nav a:hover::after {
+      width: calc(100% - 24px);
+    }
+
+    nav a.active {
+      color: var(--accent);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .logout-btn {
+      background-color: var(--error);
+      padding: 8px 15px;
+      border-radius: 6px;
+      margin-left: 10px;
+    }
+
+    .logout-btn:hover {
+      background-color: #d32f2f;
+    }
+
+    /* Admin Content */
+    .admin-container {
+      display: flex;
+      min-height: calc(100vh - 80px);
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--primary-light);
+      color: white;
+      padding: 30px 0;
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      transition: var(--transition);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 25px;
+      color: white;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .sidebar-menu a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-menu a.active {
+      background-color: var(--accent);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .sidebar-menu i {
+      width: 20px;
+      text-align: center;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .admin-title {
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+
+    .admin-card {
+      background-color: var(--card);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 20px var(--shadow);
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(28, 31, 76, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid rgba(28, 31, 76, 0.2);
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(202, 167, 96, 0.2);
+    }
+
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary);
+    }
+
+    .btn-secondary {
+      background-color: var(--text-light);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--text);
+    }
+
+    .btn-danger {
+      background-color: var(--error);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #d32f2f;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .table th {
+      background-color: var(--primary);
+      color: white;
+      padding: 12px 15px;
+      text-align: left;
+    }
+
+    .table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(28, 31, 76, 0.1);
+    }
+
+    .table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table tr:hover {
+      background-color: rgba(28, 31, 76, 0.03);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 220px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 25px;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      nav {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: var(--primary);
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        transform: translateY(-150%);
+        transition: var(--transition);
+        z-index: 999;
+      }
+      
+      nav.active {
+        transform: translateY(0);
+      }
+      
+      .admin-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        position: static;
+        height: auto;
+      }
+      
+      .main-content {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .action-buttons .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header id="header">
+    <div class="logo">
+      <img src="logo.png" alt="Logo Desa Tungel">
+      <div class="logo-text">
+        <h2>Admin Desa Tungel</h2>
+        <span>Kabupaten Gayo Lues</span>
+      </div>
+    </div>
+    
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <nav id="mainNav">
+      <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Lihat Website</a>
+      <a href="login.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+  </header>
+
+  <!-- Admin Content -->
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <ul class="sidebar-menu">
+        <li><a href="admin.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="admin-beranda.html"><i class="fas fa-home"></i> Edit Beranda</a></li>
+        <li><a href="admin-profil.html"><i class="fas fa-info-circle"></i> Edit Profil</a></li>
+        <li><a href="admin-anggaran.html"><i class="fas fa-file-invoice-dollar"></i> Edit APBN</a></li>
+        <li><a href="admin-galeri.html"><i class="fas fa-images"></i> Kelola Galeri</a></li>
+        <li><a href="admin-kontak.html"><i class="fas fa-envelope"></i> Kelola Kontak</a></li>
+        <li><a href="admin-pengguna.html"><i class="fas fa-users"></i> Kelola Pengguna</a></li>
+      </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="admin-header">
+        <h1 class="admin-title">Dashboard Admin</h1>
+        <div class="action-buttons">
+          <button class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Refresh</button>
+        </div>
+      </div>
+      
+      <div class="admin-card">
+        <h2 class="card-title">Selamat Datang, Admin Desa Tungel</h2>
+        <p>Anda dapat mengelola seluruh konten website Desa Tungel melalui panel admin ini. Gunakan menu di sebelah kiri untuk navigasi.</p>
+      </div>
+      
+      <div class="admin-card">
+        <h2 class="card-title">Statistik Website</h2>
+        
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Halaman</th>
+                <th>Pengunjung</th>
+                <th>Terakhir Diupdate</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Beranda</td>
+                <td>1,245</td>
+                <td>2 hari lalu</td>
+                <td class="action-buttons">
+                  <a href="admin-beranda.html" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Profil Desa</td>
+                <td>876</td>
+                <td>1 minggu lalu</td>
+                <td class="action-buttons">
+                  <a href="admin-profil.html" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                </td>
+              </tr>
+              <tr>
+                <td>APBN Desa</td>
+                <td>1,532</td>
+                <td>3 hari lalu</td>
+                <td class="action-buttons">
+                  <a href="admin-anggaran.html" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Galeri</td>
+                <td>943</td>
+                <td>5 hari lalu</td>
+                <td class="action-buttons">
+                  <a href="admin-galeri.html" class="btn btn-primary"><i class="fas fa-edit"></i> Kelola</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="admin-card">
+        <h2 class="card-title">Pesan Terbaru</h2>
+        
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Pesan</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ahmad Fauzi</td>
+                <td>ahmad@example.com</td>
+                <td>Permohonan surat keterangan...</td>
+                <td>2025-07-05</td>
+                <td class="action-buttons">
+                  <button class="btn btn-secondary"><i class="fas fa-eye"></i></button>
+                  <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>Siti Rahma</td>
+                <td>siti@example.com</td>
+                <td>Pertanyaan tentang bantuan...</td>
+                <td>2025-07-04</td>
+                <td class="action-buttons">
+                  <button class="btn btn-secondary"><i class="fas fa-eye"></i></button>
+                  <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>Budi Santoso</td>
+                <td>budi@example.com</td>
+                <td>Laporan jalan rusak di...</td>
+                <td>2025-07-03</td>
+                <td class="action-buttons">
+                  <button class="btn btn-secondary"><i class="fas fa-eye"></i></button>
+                  <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+      mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 10) {
+        document.getElementById('header').classList.add('scrolled');
+        document.querySelector('.logo img').style.width = '40px';
+        document.querySelector('.logo img').style.height = '40px';
+      } else {
+        document.getElementById('header').classList.remove('scrolled');
+        document.querySelector('.logo img').style.width = '50px';
+        document.querySelector('.logo img').style.height = '50px';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Kontak - Admin Desa Tungel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1c1f4c;
+      --primary-light: #2d3168;
+      --accent: #caa760;
+      --accent-light: #e8c887;
+      --bg: #f8f9fa;
+      --text: #2c2e3e;
+      --text-light: #5a5c6c;
+      --card: #ffffff;
+      --shadow: rgba(28, 31, 76, 0.1);
+      --success: #4caf50;
+      --error: #f44336;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: rgba(28, 31, 76, 0.98);
+      backdrop-filter: blur(8px);
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transition: var(--transition);
+    }
+
+    header.scrolled {
+      padding: 10px 40px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: var(--transition);
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      transition: var(--transition);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .logo-text span {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      font-weight: 300;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 4px;
+      left: 12px;
+      background-color: var(--accent);
+      transition: var(--transition);
+    }
+
+    nav a:hover::after {
+      width: calc(100% - 24px);
+    }
+
+    nav a.active {
+      color: var(--accent);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .logout-btn {
+      background-color: var(--error);
+      padding: 8px 15px;
+      border-radius: 6px;
+      margin-left: 10px;
+    }
+
+    .logout-btn:hover {
+      background-color: #d32f2f;
+    }
+
+    /* Admin Content */
+    .admin-container {
+      display: flex;
+      min-height: calc(100vh - 80px);
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--primary-light);
+      color: white;
+      padding: 30px 0;
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      transition: var(--transition);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 25px;
+      color: white;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .sidebar-menu a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-menu a.active {
+      background-color: var(--accent);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .sidebar-menu i {
+      width: 20px;
+      text-align: center;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .admin-title {
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+
+    .admin-card {
+      background-color: var(--card);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 20px var(--shadow);
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(28, 31, 76, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid rgba(28, 31, 76, 0.2);
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(202, 167, 96, 0.2);
+    }
+
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary);
+    }
+
+    .btn-secondary {
+      background-color: var(--text-light);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--text);
+    }
+
+    .btn-danger {
+      background-color: var(--error);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #d32f2f;
+    }
+
+    .image-upload {
+      border: 2px dashed rgba(28, 31, 76, 0.3);
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      margin-bottom: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .image-upload:hover {
+      border-color: var(--accent);
+    }
+
+    .image-upload i {
+      font-size: 2.5rem;
+      color: var(--text-light);
+      margin-bottom: 15px;
+    }
+
+    .image-upload p {
+      color: var(--text-light);
+    }
+
+    .image-preview {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .feature-card {
+      background-color: var(--bg);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 3px 15px var(--shadow);
+    }
+
+    .feature-card h4 {
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+
+    /* Table Styles */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(28, 31, 76, 0.1);
+    }
+
+    th {
+      background-color: rgba(28, 31, 76, 0.05);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: rgba(28, 31, 76, 0.02);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .edit-btn {
+      background-color: rgba(202, 167, 96, 0.1);
+      color: var(--accent);
+    }
+
+    .edit-btn:hover {
+      background-color: rgba(202, 167, 96, 0.2);
+    }
+
+    .delete-btn {
+      background-color: rgba(244, 67, 54, 0.1);
+      color: var(--error);
+    }
+
+    .delete-btn:hover {
+      background-color: rgba(244, 67, 54, 0.2);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1001;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      animation: modalFadeIn 0.3s ease;
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid rgba(28, 31, 76, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      color: var(--primary);
+      font-size: 1.3rem;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-light);
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-footer {
+      padding: 15px 20px;
+      border-top: 1px solid rgba(28, 31, 76, 0.1);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 220px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 25px;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      nav {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: var(--primary);
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        transform: translateY(-150%);
+        transition: var(--transition);
+        z-index: 999;
+      }
+      
+      nav.active {
+        transform: translateY(0);
+      }
+      
+      .admin-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        position: static;
+        height: auto;
+      }
+      
+      .main-content {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header id="header">
+    <div class="logo">
+      <img src="logo.png" alt="Logo Desa Tungel">
+      <div class="logo-text">
+        <h2>Admin Desa Tungel</h2>
+        <span>Kabupaten Gayo Lues</span>
+      </div>
+    </div>
+    
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <nav id="mainNav">
+      <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Lihat Website</a>
+      <a href="login.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+  </header>
+
+  <!-- Admin Content -->
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <ul class="sidebar-menu">
+        <li><a href="admin.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="admin-beranda.html"><i class="fas fa-home"></i> Edit Beranda</a></li>
+        <li><a href="admin-profil.html"><i class="fas fa-info-circle"></i> Edit Profil</a></li>
+        <li><a href="admin-anggaran.html"><i class="fas fa-file-invoice-dollar"></i> Edit APBN</a></li>
+        <li><a href="admin-galeri.html"><i class="fas fa-images"></i> Kelola Galeri</a></li>
+        <li><a href="admin-kontak.html" class="active"><i class="fas fa-envelope"></i> Kelola Kontak</a></li>
+        <li><a href="admin-pengguna.html"><i class="fas fa-users"></i> Kelola Pengguna</a></li>
+      </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="admin-header">
+        <h1 class="admin-title">Kelola Kontak Desa</h1>
+        <div class="action-buttons">
+          <button class="btn btn-secondary"><i class="fas fa-save"></i> Simpan Perubahan</button>
+          <button class="btn btn-primary"><i class="fas fa-eye"></i> Pratinjau</button>
+        </div>
+      </div>
+      
+      <!-- Informasi Kontak Section -->
+      <div class="admin-card">
+        <h2 class="card-title">Informasi Kontak Desa</h2>
+        
+        <div class="form-group">
+          <label for="contact-address">Alamat Kantor Desa</label>
+          <textarea id="contact-address" class="form-control" rows="3">Desa Tungel, Kecamatan Rikit Gaib, Kabupaten Gayo Lues, Aceh</textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="contact-email">Email Resmi</label>
+          <input type="email" id="contact-email" class="form-control" value="tungel.desa@example.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="contact-phone">Nomor Telepon</label>
+          <input type="tel" id="contact-phone" class="form-control" value="+62 823-1234-5678">
+        </div>
+        
+        <div class="form-group">
+          <label for="contact-hours">Jam Pelayanan</label>
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="form-group">
+                <label for="weekday-hours">Senin - Kamis</label>
+                <input type="text" id="weekday-hours" class="form-control" value="08.00 - 16.00 WIB">
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="form-group">
+                <label for="friday-hours">Jumat</label>
+                <input type="text" id="friday-hours" class="form-control" value="08.00 - 16.30 WIB">
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="form-group">
+                <label for="weekend-hours">Sabtu - Minggu</label>
+                <input type="text" id="weekend-hours" class="form-control" value="Libur">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Form Kontak Section -->
+      <div class="admin-card">
+        <h2 class="card-title">Formulir Kontak</h2>
+        
+        <div class="form-group">
+          <label for="google-form-link">Link Google Form</label>
+          <input type="url" id="google-form-link" class="form-control" value="https://docs.google.com/forms/d/e/1FAIpQLScmVaYHoBu6HupOFrsnhMvAuoc2WXtLKjVBNCS01LplCQE_gQ/viewform?embedded=true">
+        </div>
+        
+        <div class="form-group">
+          <label for="contact-instruction">Instruksi Pengisian</label>
+          <textarea id="contact-instruction" class="form-control" rows="4">Silakan isi formulir di atas untuk menghubungi pemerintah desa. Pastikan mengisi data dengan benar dan lengkap. Kami akan merespon pesan Anda secepat mungkin.</textarea>
+        </div>
+      </div>
+      
+      <!-- Peta Lokasi Section -->
+      <div class="admin-card">
+        <h2 class="card-title">Peta Lokasi</h2>
+        
+        <div class="form-group">
+          <label for="map-embed">Embed Peta Google Maps</label>
+          <textarea id="map-embed" class="form-control" rows="6"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3986.951914525501!2d97.2753916!3d4.0946606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3039bcc64fa36cdd%3A0xec343d79c7457326!2sTungel%2C%20Kec.%20Rikit%20Gaib%2C%20Kabupaten%20Gayo%20Lues%2C%20Aceh%2024661!5e0!3m2!1sid!2sid!4v1719305678901!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="map-instruction">Instruksi Lokasi</label>
+          <textarea id="map-instruction" class="form-control" rows="4">Kantor Desa Tungel terletak di pusat desa, dekat dengan masjid dan lapangan utama. Akses jalan sudah beraspal dan dapat dilalui kendaraan roda dua maupun empat.</textarea>
+        </div>
+      </div>
+      
+      <!-- Staf Desa Section -->
+      <div class="admin-card">
+        <h2 class="card-title">Staf Desa</h2>
+        
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Jabatan</th>
+                <th>Kontak</th>
+                <th>Foto</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Said Tarmizi</td>
+                <td>Pengulu</td>
+                <td>+62 823-1234-5678<br>kepaladesa@example.com</td>
+                <td>
+                  <div class="image-upload small" id="staff1Upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Unggah foto</p>
+                    <img id="staff1Preview" class="image-preview" src="kades.jpg" alt="Preview">
+                  </div>
+                  <input type="file" id="staff1Image" accept="image/*" style="display: none;">
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Tgk. Harun</td>
+                <td>Imam Kampung</td>
+                <td>+62 823-1234-5679<br>imam@example.com</td>
+                <td>
+                  <div class="image-upload small" id="staff2Upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Unggah foto</p>
+                    <img id="staff2Preview" class="image-preview" src="staff2.png" alt="Preview">
+                  </div>
+                  <input type="file" id="staff2Image" accept="image/*" style="display: none;">
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Muhrifan Ariga</td>
+                <td>Keuangan Desa</td>
+                <td>+62 823-1234-5680<br>bendahara@example.com</td>
+                <td>
+                  <div class="image-upload small" id="staff3Upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Unggah foto</p>
+                    <img id="staff3Preview" class="image-preview" src="staff3.png" alt="Preview">
+                  </div>
+                  <input type="file" id="staff3Image" accept="image/*" style="display: none;">
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Ibrahim</td>
+                <td>Operator Desa</td>
+                <td>+62 823-1234-5681<br>operator@example.com</td>
+                <td>
+                  <div class="image-upload small" id="staff4Upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Unggah foto</p>
+                    <img id="staff4Preview" class="image-preview" src="staff4.png" alt="Preview">
+                  </div>
+                  <input type="file" id="staff4Image" accept="image/*" style="display: none;">
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <button class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Staf</button>
+      </div>
+      
+      <!-- FAQ Section -->
+      <div class="admin-card">
+        <h2 class="card-title">Pertanyaan Umum (FAQ)</h2>
+        
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Pertanyaan</th>
+                <th>Jawaban</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bagaimana cara mengurus surat keterangan domisili?</td>
+                <td>Untuk mengurus surat keterangan domisili, Anda perlu datang ke kantor desa dengan membawa fotokopi KTP dan KK asli.</td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Kapan jam buka layanan administrasi desa?</td>
+                <td>Kantor desa buka setiap hari Senin hingga Kamis pukul 08.00-16.00 WIB, dan Jumat pukul 08.00-16.30 WIB.</td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Bagaimana prosedur pengajuan bantuan sosial?</td>
+                <td>Pengajuan bantuan sosial diawali dengan pendaftaran di kantor desa dengan membawa dokumen lengkap (KTP, KK, surat keterangan tidak mampu).</td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Apakah ada layanan online untuk pengurusan surat?</td>
+                <td>Saat ini beberapa layanan seperti permohonan surat keterangan sudah bisa diajukan secara online melalui website desa.</td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <button class="btn btn-primary"><i class="fas fa-plus"></i> Tambah FAQ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Tambah/Edit Staf -->
+  <div class="modal" id="staffModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Tambah Staf Desa</h3>
+        <button class="modal-close" id="closeStaffModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="staff-name">Nama Lengkap</label>
+          <input type="text" id="staff-name" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="staff-position">Jabatan</label>
+          <input type="text" id="staff-position" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="staff-phone">Nomor Telepon</label>
+          <input type="tel" id="staff-phone" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="staff-email">Email</label>
+          <input type="email" id="staff-email" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Foto Profil</label>
+          <div class="image-upload" id="modalStaffUpload">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Klik untuk mengunggah foto atau tarik dan lepas di sini</p>
+            <img id="modalStaffPreview" class="image-preview" src="" alt="Preview">
+          </div>
+          <input type="file" id="modalStaffImage" accept="image/*" style="display: none;">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelStaffModal">Batal</button>
+        <button class="btn btn-primary">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Tambah/Edit FAQ -->
+  <div class="modal" id="faqModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Tambah Pertanyaan Umum</h3>
+        <button class="modal-close" id="closeFaqModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="faq-question">Pertanyaan</label>
+          <input type="text" id="faq-question" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="faq-answer">Jawaban</label>
+          <textarea id="faq-answer" class="form-control" rows="5"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelFaqModal">Batal</button>
+        <button class="btn btn-primary">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+      mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Image Upload Functionality
+    const setupImageUpload = (uploadElementId, previewElementId, inputElementId) => {
+      const uploadElement = document.getElementById(uploadElementId);
+      const previewElement = document.getElementById(previewElementId);
+      const inputElement = document.getElementById(inputElementId);
+      
+      if (previewElement.src && previewElement.src !== '') {
+        previewElement.style.display = 'block';
+      }
+      
+      uploadElement.addEventListener('click', () => {
+        inputElement.click();
+      });
+      
+      inputElement.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            previewElement.src = event.target.result;
+            previewElement.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      
+      uploadElement.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadElement.style.borderColor = 'var(--accent)';
+      });
+      
+      uploadElement.addEventListener('dragleave', () => {
+        uploadElement.style.borderColor = 'rgba(28, 31, 76, 0.3)';
+      });
+      
+      uploadElement.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadElement.style.borderColor = 'rgba(28, 31, 76, 0.3)';
+        
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.match('image.*')) {
+          inputElement.files = e.dataTransfer.files;
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            previewElement.src = event.target.result;
+            previewElement.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    };
+    
+    // Setup all image uploads
+    setupImageUpload('staff1Upload', 'staff1Preview', 'staff1Image');
+    setupImageUpload('staff2Upload', 'staff2Preview', 'staff2Image');
+    setupImageUpload('staff3Upload', 'staff3Preview', 'staff3Image');
+    setupImageUpload('staff4Upload', 'staff4Preview', 'staff4Image');
+    setupImageUpload('modalStaffUpload', 'modalStaffPreview', 'modalStaffImage');
+    
+    // Modal Functionality
+    const staffModal = document.getElementById('staffModal');
+    const faqModal = document.getElementById('faqModal');
+    const addStaffBtn = document.querySelector('.admin-card:nth-last-child(2) .btn-primary');
+    const addFaqBtn = document.querySelector('.admin-card:last-child .btn-primary');
+    const closeStaffModal = document.getElementById('closeStaffModal');
+    const closeFaqModal = document.getElementById('closeFaqModal');
+    const cancelStaffModal = document.getElementById('cancelStaffModal');
+    const cancelFaqModal = document.getElementById('cancelFaqModal');
+    
+    // Open modals
+    addStaffBtn.addEventListener('click', () => {
+      staffModal.style.display = 'flex';
+    });
+    
+    addFaqBtn.addEventListener('click', () => {
+      faqModal.style.display = 'flex';
+    });
+    
+    // Close modals
+    const closeModals = () => {
+      staffModal.style.display = 'none';
+      faqModal.style.display = 'none';
+    };
+    
+    closeStaffModal.addEventListener('click', closeModals);
+    closeFaqModal.addEventListener('click', closeModals);
+    cancelStaffModal.addEventListener('click', closeModals);
+    cancelFaqModal.addEventListener('click', closeModals);
+    
+    // Close when clicking outside modal
+    window.addEventListener('click', (e) => {
+      if (e.target === staffModal) {
+        staffModal.style.display = 'none';
+      }
+      if (e.target === faqModal) {
+        faqModal.style.display = 'none';
+      }
+    });
+    
+    // Save functionality
+    document.querySelector('.btn-secondary').addEventListener('click', () => {
+      alert('Perubahan berhasil disimpan!');
+      // In a real application, you would send the data to the server here
+    });
+    
+    // Preview functionality
+    document.querySelector('.btn-primary').addEventListener('click', () => {
+      window.open('kontak.html', '_blank');
+    });
+    
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 10) {
+        document.getElementById('header').classList.add('scrolled');
+      } else {
+        document.getElementById('header').classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>

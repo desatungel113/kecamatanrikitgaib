@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta Administrasi Desa Tungel - Kabupaten Gayo Lues</title>
+  <meta name="description" content="Peta administrasi Desa Tungel, Kecamatan Rikit Gaib, Kabupaten Gayo Lues. Lihat batas wilayah dan pembagian administrasi desa.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1c1f4c;
+      --primary-light: #2d3168;
+      --accent: #caa760;
+      --accent-light: #e8c887;
+      --bg: #f8f9fa;
+      --text: #2c2e3e;
+      --text-light: #5a5c6c;
+      --card: #ffffff;
+      --shadow: rgba(28, 31, 76, 0.1);
+      --success: #4caf50;
+      --error: #f44336;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: rgba(28, 31, 76, 0.98);
+      backdrop-filter: blur(8px);
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transition: var(--transition);
+    }
+
+    header.scrolled {
+      padding: 10px 40px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: var(--transition);
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      transition: var(--transition);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .logo-text span {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      font-weight: 300;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 4px;
+      left: 12px;
+      background-color: var(--accent);
+      transition: var(--transition);
+    }
+
+    nav a:hover::after {
+      width: calc(100% - 24px);
+    }
+
+    nav a.active {
+      color: var(--accent);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      text-align: center;
+      padding: 120px 30px 90px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('pattern.png') repeat;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 25px;
+      opacity: 0.9;
+      font-weight: 300;
+      animation: fadeInUp 0.8s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .hero-breadcrumb {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      margin-top: 20px;
+      animation: fadeInUp 0.8s ease 0.4s forwards;
+      opacity: 0;
+    }
+
+    .hero-breadcrumb a {
+      color: var(--accent-light);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .hero-breadcrumb a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .hero-breadcrumb i {
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 30px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+      padding-bottom: 15px;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .section-title p {
+      color: var(--text-light);
+      max-width: 700px;
+      margin: 15px auto 0;
+    }
+
+    /* Peta Section */
+    .peta-container {
+      background-color: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px var(--shadow);
+      margin-bottom: 40px;
+    }
+
+    .peta-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .peta-description {
+      padding: 30px;
+    }
+
+    .peta-description h3 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .peta-description p {
+      color: var(--text-light);
+      margin-bottom: 15px;
+      line-height: 1.7;
+    }
+
+    .peta-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .info-box {
+      background-color: rgba(202, 167, 96, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .info-box h4 {
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .info-box p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 60px 0 30px;
+      position: relative;
+    }
+
+    .footer-wave {
+      position: absolute;
+      top: -50px;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23f8f9fa" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23f8f9fa" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23f8f9fa"/></svg>') no-repeat;
+      background-size: cover;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 30px;
+    }
+
+    .footer-col h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-col h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .footer-col p {
+      margin-bottom: 15px;
+      opacity: 0.8;
+      font-weight: 300;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+      transform: translateX(5px);
+    }
+
+    .footer-links i {
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 40px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.9rem;
+      opacity: 0.7;
+      font-weight: 300;
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 999;
+      box-shadow: 0 5px 20px rgba(202, 167, 96, 0.3);
+    }
+
+    .back-to-top.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--primary);
+      transform: translateY(-5px);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 25px;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      nav {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: var(--primary);
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        transform: translateY(-150%);
+        transition: var(--transition);
+        z-index: 999;
+      }
+      
+      nav.active {
+        transform: translateY(0);
+      }
+      
+      .container {
+        padding: 40px 20px;
+      }
+      
+      .section-title h2 {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        padding: 100px 20px 70px;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .peta-description {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header id="header">
+    <div class="logo">
+      <img src="logo.png" alt="Logo Desa Tungel">
+      <div class="logo-text">
+        <h2>Desa Tungel</h2>
+        <span>Kabupaten Gayo Lues</span>
+      </div>
+    </div>
+    
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <nav id="mainNav">
+      <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
+      <a href="profil.html"><i class="fas fa-info-circle"></i> Profil</a>
+      <a href="data.html"><i class="fas fa-database"></i> Data</a>
+      <a href="petaadministrasi.html" class="active"><i class="fas fa-map"></i> Peta</a>
+      <a href="galleri.html"><i class="fas fa-images"></i> Galeri</a>
+      <a href="anggaran.html"><i class="fas fa-file-invoice-dollar"></i> APBN</a>
+      <a href="kontak.html"><i class="fas fa-envelope"></i> Kontak</a>
+      <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Peta Administrasi Desa Tungel</h1>
+      <p>Lihat batas wilayah dan pembagian administrasi Desa Tungel, Kecamatan Rikit Gaib, Kabupaten Gayo Lues</p>
+      
+      <div class="hero-breadcrumb">
+        <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Peta Administrasi</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="section-title">
+      <h2>Peta Wilayah Desa</h2>
+      <p>Peta administrasi resmi Desa Tungel yang menunjukkan batas wilayah dan pembagian area</p>
+    </div>
+    
+    <div class="peta-container">
+      <img src="petaadministrasi.jpg" alt="Peta Administrasi Desa Tungel" class="peta-image">
+      <div class="peta-description">
+        <h3>Peta Administrasi Desa Tungel</h3>
+        <p>Peta ini menunjukkan batas-batas administrasi Desa Tungel yang meliputi wilayah pemukiman, lahan pertanian, dan area publik. Peta ini penting untuk perencanaan pembangunan, pembagian wilayah kerja, dan pemetaan potensi desa.</p>
+        <p>Desa Tungel berbatasan dengan beberapa desa tetangga di Kecamatan Rikit Gaib. Peta ini juga menampilkan pembagian dusun dan RT/RW yang ada di wilayah Desa Tungel.</p>
+        
+        <div class="peta-info">
+          <div class="info-box">
+            <h4>Batas Utara</h4>
+            <p>Berbatasan dengan Desa Cane Uken</p>
+          </div>
+          <div class="info-box">
+            <h4>Batas Selatan</h4>
+            <p>Berbatasan dengan Desa Tampang Musara</p>
+          </div>
+          <div class="info-box">
+            <h4>Batas Timur</h4>
+            <p>Berbatasan dengan Desa Tungel Baru dan Penomon Jaya</p>
+          </div>
+          <div class="info-box">
+            <h4>Batas Barat</h4>
+            <p>Berbatasan dengan Desa Kuta Ujung dan Rempelam</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section-title">
+      <h2>Legenda Peta</h2>
+      <p>Penjelasan simbol dan warna yang digunakan dalam peta administrasi</p>
+    </div>
+    
+    <div class="peta-container">
+      <div class="peta-description">
+        <div class="peta-info">
+          <div class="info-box">
+            <h4><i class="fas fa-square" style="color: #1c1f4c;"></i> Wilayah Pemukiman</h4>
+            <p>Area tempat tinggal penduduk desa</p>
+          </div>
+          <div class="info-box">
+            <h4><i class="fas fa-square" style="color: #4caf50;"></i> Lahan Pertanian</h4>
+            <p>Area persawahan dan perkebunan</p>
+          </div>
+          <div class="info-box">
+            <h4><i class="fas fa-square" style="color: #caa760;"></i> Fasilitas Publik</h4>
+            <p>Kantor desa, sekolah, tempat ibadah</p>
+          </div>
+          <div class="info-box">
+            <h4><i class="fas fa-square" style="color: #f44336;"></i> Batas Desa</h4>
+            <p>Garis pembatas wilayah desa</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-wave"></div>
+    
+    <div class="footer-content">
+      <div class="footer-col">
+        <h3>Tentang Desa Tungel</h3>
+        <p>Desa Tungel adalah salah satu desa di Kecamatan Rikit Gaib, Kabupaten Gayo Lues yang memiliki potensi besar di bidang pertanian dan pariwisata.</p>
+        
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Link Cepat</h3>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+          <li><a href="profil.html"><i class="fas fa-chevron-right"></i> Profil Desa</a></li>
+          <li><a href="data.html"><i class="fas fa-chevron-right"></i> Data Desa</a></li>
+          <li><a href="galleri.html"><i class="fas fa-chevron-right"></i> Galeri Kegiatan</a></li>
+          <li><a href="petaadministrasi.html"><i class="fas fa-chevron-right"></i> Peta Administrasi</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Kontak Kami</h3>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-map-marker-alt"></i> Desa Tungel, Kec. Rikit Gaib</a></li>
+          <li><a href="mailto:tungel.desa@example.com"><i class="fas fa-envelope"></i> tungel.desa@example.com</a></li>
+          <li><a href="tel:+6282312345678"><i class="fas fa-phone-alt"></i> +62 823-1234-5678</a></li>
+          <li><a href="#"><i class="fas fa-clock"></i> Senin-Jumat: 08.00-16.00 WIB</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 Pemerintah Desa Tungel – Kecamatan Rikit Gaib, Kabupaten Gayo Lues. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
+  <!-- Back to Top Button -->
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+      mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('active');
+        document.getElementById('header').classList.add('scrolled');
+        document.querySelector('.logo img').style.width = '40px';
+        document.querySelector('.logo img').style.height = '40px';
+      } else {
+        backToTop.classList.remove('active');
+        document.getElementById('header').classList.remove('scrolled');
+        document.querySelector('.logo img').style.width = '50px';
+        document.querySelector('.logo img').style.height = '50px';
+      }
+    });
+    
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Animation on scroll
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('.peta-container, .info-box');
+      
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+        
+        if (elementPosition < screenPosition) {
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+        }
+      });
+    };
+    
+    // Set initial state for animated elements
+    document.querySelectorAll('.peta-container, .info-box').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+    
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('load', animateOnScroll);
+  </script>
+</body>
+</html>

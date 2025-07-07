@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeri Desa Tungel | Dokumentasi Kegiatan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1c1f4c;
+      --accent: #caa760;
+      --accent-light: #e8d7b0;
+      --bg: #f9f9f9;
+      --text: #333;
+      --text-light: #666;
+      --card: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    header {
+      background-color: rgba(28, 31, 76, 0.98);
+      backdrop-filter: blur(6px);
+      color: white;
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled {
+      padding: 12px 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled .logo img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo h2 {
+      font-weight: 600;
+      font-size: 1.4rem;
+      background: linear-gradient(to right, #fff, var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    nav a.active {
+      background-color: var(--accent);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    nav a.active:hover {
+      background-color: var(--accent);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--primary), #303566);
+      color: white;
+      text-align: center;
+      padding: 120px 30px 90px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('pattern.svg') center/cover no-repeat;
+      opacity: 0.05;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      position: relative;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      opacity: 0.9;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 70px 30px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .section h2 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      padding-left: 20px;
+      margin-bottom: 0;
+      position: relative;
+    }
+
+    .section h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      color: var(--primary);
+      border-color: var(--accent);
+      font-weight: 500;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .gallery-item {
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px var(--shadow);
+      transition: all 0.3s ease;
+      position: relative;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+
+    .gallery-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: all 0.5s ease;
+    }
+
+    .gallery-item:hover .gallery-img {
+      transform: scale(1.05);
+    }
+
+    .gallery-caption {
+      padding: 20px;
+      position: relative;
+    }
+
+    .gallery-caption h3 {
+      color: var(--primary);
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .gallery-caption p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
+    .gallery-date {
+      display: flex;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .gallery-date i {
+      margin-right: 8px;
+      color: var(--accent);
+    }
+
+    .gallery-category {
+      position: absolute;
+      top: -15px;
+      right: 20px;
+      background: var(--accent);
+      color: var(--primary);
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(202, 167, 96, 0.3);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 2000;
+      overflow: auto;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+      animation: zoomIn 0.3s ease;
+    }
+
+    .modal-img {
+      max-width: 100%;
+      max-height: 80vh;
+      display: block;
+      margin: 0 auto;
+      border-radius: 8px;
+    }
+
+    .modal-caption {
+      color: white;
+      text-align: center;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .modal-caption h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .modal-caption p {
+      opacity: 0.8;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(0,0,0,0.5);
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .close-btn:hover {
+      transform: rotate(90deg);
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .nav-btn {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(0,0,0,0.5);
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      z-index: 2001;
+    }
+
+    .nav-btn:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .prev-btn {
+      left: 30px;
+    }
+
+    .next-btn {
+      right: 30px;
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      padding: 60px 0 30px;
+      margin-top: 80px;
+      position: relative;
+    }
+
+    .footer-wave {
+      position: absolute;
+      top: -60px;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%231c1f4c" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%231c1f4c" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%231c1f4c"/></svg>') center top/cover no-repeat;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-column h3::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .footer-column p {
+      opacity: 0.8;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+      transform: translateX(5px);
+    }
+
+    .footer-links i {
+      color: var(--accent);
+      font-size: 0.8rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      background: var(--accent);
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .back-to-top.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-5px);
+      background: var(--primary);
+      color: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+      }
+      
+      .hero {
+        padding: 90px 20px 60px;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .container {
+        padding: 50px 20px;
+      }
+      
+      .filter-buttons {
+        justify-content: center;
+      }
+      
+      .nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+      }
+      
+      .prev-btn {
+        left: 10px;
+      }
+      
+      .next-btn {
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <div class="logo">
+      <img src="logo.png" alt="Logo Desa Tungel">
+      <h2>Desa Tungel</h2>
+    </div>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="profil.html">Profil</a>
+      <a href="data.html">Data</a>
+      <a href="petaadministrasi.html">Peta</a>
+      <a href="galleri.html" class="active">Galeri</a>
+      <a href="anggaran.html">APBN</a>
+      <a href="kontak.html">Kontak</a>
+      <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Galeri Desa Tungel</h1>
+    <p>Dokumentasi kegiatan, keindahan alam, dan kehidupan masyarakat Desa Tungel</p>
+  </section>
+
+  <div class="container">
+    <div class="section">
+      <div class="section-header">
+        <h2>Koleksi Foto</h2>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">Semua</button>
+          <button class="filter-btn" data-filter="kegiatan">Kegiatan</button>
+          <button class="filter-btn" data-filter="pembangunan">Pembangunan</button>
+          <button class="filter-btn" data-filter="alam">Alam</button>
+          <button class="filter-btn" data-filter="budaya">Budaya</button>
+        </div>
+      </div>
+      
+      <div class="gallery-grid">
+        <div class="gallery-item" data-category="kegiatan">
+          <img src="galeri1.jpg" alt="Gotong Royong" class="gallery-img">
+          <div class="gallery-category">Kegiatan</div>
+          <div class="gallery-caption">
+            <h3>Gotong Royong Bersama</h3>
+            <p>Warga Desa Tungel membersihkan lingkungan bersama-sama</p>
+            <div class="gallery-date">
+              <i class="far fa-calendar-alt"></i>
+              <span>15 Mei 2025</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="gallery-item" data-category="budaya">
+          <img src="galeri2.jpg" alt="Upacara Adat" class="gallery-img">
+          <div class="gallery-category">Budaya</div>
+          <div class="gallery-caption">
+            <h3>Upacara Adat Gayo</h3>
+            <p>Pelestarian budaya lokal melalui upacara adat tahunan</p>
+            <div class="gallery-date">
+              <i class="far fa-calendar-alt"></i>
+              <span>22 April 2025</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="gallery-item" data-category="pembangunan">
+          <img src="galeri3.jpg" alt="Pembangunan Jalan" class="gallery-img">
+          <div class="gallery-category">Pembangunan</div>
+          <div class="gallery-caption">
+            <h3>Pembangunan Jalan Desa</h3>
+            <p>Proyek peningkatan infrastruktur jalan desa</p>
+            <div class="gallery-date">
+              <i class="far fa-calendar-alt"></i>
+              <span>10 Maret 2025</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="gallery-item" data-category="kegiatan">
+          <img src="galeri4.jpg" alt="Pelayanan Posyandu" class="gallery-img">
+          <div class="gallery-category">Kegiatan</div>
+          <div class="gallery-caption">
+            <h3>Pelayanan Posyandu</h3>
+            <p>Kegiatan rutin pemeriksaan kesehatan ibu dan anak</p>
+            <div class="gallery-date">
+              <i class="far fa-calendar-alt"></i>
+              <span>5 Februari 2025</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="gallery-item" data-category="kegiatan">
+          <img src="galeri5.jpg" alt="Pengajian Warga" class="gallery-img">
+          <div class="gallery-category">Kegiatan</div>
+          <div class="gallery-caption">
+            <h3>Kegiatan Keagamaan</h3>
+            <p>Pengajian rutin bulanan warga Desa Tungel</p>
+            <div class="gallery-date">
+              <i class="far fa-calendar-alt"></i>
+              <span>12 Januari 2025</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="gallery-item" data-category="kegiatan">
+          <img src="galeri6.jpg" alt="Musyawarah Warga" class="gallery-img">
+          <div class="gallery-category">Kegiatan</div>
+          <div class="gallery-caption">
+            <h3>Musyawarah Warga</h3>
+            <p>Rapat koordinasi pembangunan desa</p>
+            <div class="gallery-date">
+              <i class="far fa-calendar-alt"></i>
+              <span>20 Desember 2024</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="gallery-item" data-category="alam">
+          <img src="galeri7.jpg" alt="Pemandangan Alam" class="gallery-img">
+          <div class="gallery-category">Alam</div>
+          <div class="gallery-caption">
+            <h3>Keindahan Alam Desa</h3>
+            <p>Pemandangan sawah dan pegunungan di Desa Tungel</p>
+            <div class="gallery-date">
+              <i class="far fa-calendar-alt"></i>
+              <span>8 November 2024</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="gallery-item" data-category="budaya">
+          <img src="galeri8.jpg" alt="Tarian Tradisional" class="gallery-img">
+          <div class="gallery-category">Budaya</div>
+          <div class="gallery-caption">
+            <h3>Tarian Saman</h3>
+            <p>Penampilan tarian tradisional Gayo oleh pemuda desa</p>
+            <div class="gallery-date">
+              <i class="far fa-calendar-alt"></i>
+              <span>17 Oktober 2024</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Lightbox -->
+  <div class="modal" id="imageModal">
+    <span class="close-btn" id="closeModal">&times;</span>
+    <div class="modal-content">
+      <img src="" alt="" class="modal-img" id="modalImage">
+      <div class="modal-caption">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDesc"></p>
+      </div>
+    </div>
+    <button class="nav-btn prev-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+    <button class="nav-btn next-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+  </div>
+
+  <footer>
+    <div class="footer-wave"></div>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Tentang Desa Tungel</h3>
+        <p>Desa Tungel adalah desa yang terletak di Kecamatan Rikit Gaib, Kabupaten Gayo Lues, Provinsi Aceh dengan keindahan alam dan budaya yang mempesona.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Navigasi Cepat</h3>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+          <li><a href="profil.html"><i class="fas fa-chevron-right"></i> Profil Desa</a></li>
+          <li><a href="data.html"><i class="fas fa-chevron-right"></i> Data Statistik</a></li>
+          <li><a href="gallery.html"><i class="fas fa-chevron-right"></i> Galeri Kegiatan</a></li>
+          <li><a href="kontak.html"><i class="fas fa-chevron-right"></i> Kontak Kami</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Kontak</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Jl. Desa Tungel, Kec. Rikit Gaib, Kab. Gayo Lues, Aceh</p>
+        <p><i class="fas fa-phone"></i> +62 852 XXXX XXXX</p>
+        <p><i class="fas fa-envelope"></i> desatungel@gayolueskab.go.id</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Desa Tungel – Kecamatan Rikit Gaib, Kabupaten Gayo Lues. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('active');
+        document.getElementById('header').classList.add('scrolled');
+      } else {
+        backToTop.classList.remove('active');
+        document.getElementById('header').classList.remove('scrolled');
+      }
+    });
+    
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Filter Gallery
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        button.classList.add('active');
+        
+        const filterValue = button.getAttribute('data-filter');
+        
+        galleryItems.forEach(item => {
+          if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Modal Lightbox
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const closeModal = document.getElementById('closeModal');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    let currentIndex = 0;
+    const galleryImages = Array.from(document.querySelectorAll('.gallery-item'));
+    
+    // Open modal with clicked image
+    galleryItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        currentIndex = index;
+        updateModal();
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    
+    // Close modal
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('show');
+      document.body.style.overflow = 'auto';
+    });
+    
+    // Close when clicking outside image
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+      }
+    });
+    
+    // Navigation
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+      updateModal();
+    });
+    
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % galleryImages.length;
+      updateModal();
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (modal.classList.contains('show')) {
+        if (e.key === 'Escape') {
+          modal.classList.remove('show');
+          document.body.style.overflow = 'auto';
+        } else if (e.key === 'ArrowLeft') {
+          currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+          updateModal();
+        } else if (e.key === 'ArrowRight') {
+          currentIndex = (currentIndex + 1) % galleryImages.length;
+          updateModal();
+        }
+      }
+    });
+    
+    function updateModal() {
+      const activeItem = galleryImages[currentIndex];
+      const imgSrc = activeItem.querySelector('img').src;
+      const title = activeItem.querySelector('h3').textContent;
+      const desc = activeItem.querySelector('p').textContent;
+      
+      modalImg.src = imgSrc;
+      modalImg.alt = title;
+      modalTitle.textContent = title;
+      modalDesc.textContent = desc;
+    }
+  </script>
+</body>
+</html>
